@@ -1,0 +1,3 @@
+run cc kilo.c -o kilo in your shell.
+-o stands for “output”, and specifies that the output executable should be named kilo.
+run ./kilo
