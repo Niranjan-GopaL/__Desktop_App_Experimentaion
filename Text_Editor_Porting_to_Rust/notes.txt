@@ -1,0 +1,68 @@
+USE YOUR SUPER SKILLL (COLLAPSE CODE)
+
+CTRL + k + 0 => folds everything, uch easier to understand
+
+
+
+---PROGRESS -----------------------------------------------------------------------------------
+
+Getting more comfortable with Rust
+
+
+1)  We'll be using a dependency called crossterm (to use terminal as UI / io system)
+    Made another rust dir and made sure crossterm works
+
+2)  CHAPTER - 2 (basic loop that reads characters from user and do nothing)
+
+    by default your terminal starts in ""canonical mode"", also called cooked mode. 
+    In this mode, keyboard input is only sent to your program when the user presses 
+    Enter. This is useful for many programs: it lets the user type in a line of text,
+    use Backspace to fix errors until they get their input exactly the way they want
+    it, and finally press Enter to send it to the program.
+
+use crossterm::{event::read,Result};
+
+fn main() -> Result<()>{
+    loop {
+        if let Ok(event) = read()  {
+            // what is the question after read for ?
+            println!("{:?}", read()?);
+        }else {
+            break;
+        }
+    }
+    Ok(())
+}
+
+
+3)   We need to make it so that on entering q, the loop stop taking in input
+
+use crossterm::{
+    event::{read, KeyCode,Event::*},
+    Result
+    };
+
+fn main() -> Result<()>{
+    loop {
+        if let Ok(event) = read()  {
+            
+            // when we press q we'll exit
+            if let Key(key_event) = event {
+                if key_event.code == KeyCode::Char('q')
+                {
+                    break;
+                }else{
+                    // what is the question after read for ?
+                    println!("{:?}", key_event);
+                }}
+        }else {
+            break;
+        }
+    }
+    Ok(())
+}
+
+4)   Implementation of raw mode, just two line
+
+    terminal::enable_raw_mode(); // before the loop
+    terminal::disable_raw_mode();// after the loop / before Ok(())
